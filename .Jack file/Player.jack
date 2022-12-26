@@ -1,0 +1,130 @@
+class Player {
+
+    field int x, y;
+    field int width, height;  
+    field int direction;     
+
+    constructor Player new(int Ax, int Ay, int Awidth, int Aheight) {
+        let x = Ax;
+        let y = Ay;
+        let width = Awidth;
+        let height = Aheight;
+        let direction = 0;
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void show() {
+        do Screen.setColor(true);
+        do draw();
+        return;
+    }
+
+    method void hide() {
+        do Screen.setColor(false);
+        do draw();
+        return;
+    }
+
+    method void draw() {
+        do Screen.drawRectangle(x, y, x + width, y + height);
+        return;
+    }
+
+    /** Sets player direction (0=stop, 1=left, 2=right, 3=up, 4=down). */
+    method void setDirection(int Adirection) {
+        let direction = Adirection;
+        return;
+    }
+
+    method int getLeft() {
+        return x;
+    }
+
+    method int getRight() {
+        return x + width;
+    }
+
+    method int getTop() {
+        return y;
+    }
+
+    method int getBottom() {
+        return y + height;
+    }
+
+    /** Moves the player one step in the player's direction. */
+    method void move(int Lwall, int Rwall, int Uwall, int Dwall) {
+	   
+        // left
+        if (direction = 1) {
+            let x = x - 4;
+            if (x < Lwall) {
+                let x = Lwall;
+                do Screen.setColor(false);
+                do Screen.drawRectangle((x + width) + 1, y, (x + width) + 4, y + height);
+                do show();
+            }
+            else {
+                do Screen.setColor(false);
+                do Screen.drawRectangle((x + width) + 1, y, (x + width) + 4, y + height);
+                do Screen.setColor(true);
+                do Screen.drawRectangle(x, y, x + 3, y + height);
+            }
+        }
+        // right
+        if (direction = 2) {
+            let x = x + 4;
+            if ((x + width) > Rwall) {
+                let x = Rwall - width;
+                do Screen.setColor(false);
+                do Screen.drawRectangle(x - 4, y, x - 1, y + height);
+                do show();
+            }
+            else {
+                do Screen.setColor(false);
+                do Screen.drawRectangle(x - 4, y, x - 1, y + height);
+                do Screen.setColor(true);
+                do Screen.drawRectangle((x + width) - 3, y, x + width, y + height);
+            }
+        }
+        // up
+        if (direction = 3) {
+            let y = y - 4;
+            if (y < Uwall) {
+                let y = Uwall;
+                do Screen.setColor(false);
+                do Screen.drawRectangle(x, (y + height) + 1, x + width, (y + height) + 4);
+                do show();
+            }
+            else{
+                do Screen.setColor(false);
+                do Screen.drawRectangle(x, (y + height) + 1, x + width, (y + height) + 4);
+                do Screen.setColor(true);
+                do Screen.drawRectangle(x, y, x + width, y + 3);
+            }
+        }
+        // down
+        if (direction = 4) {
+            let y = y + 4;
+            if ((y + height) > Dwall) {
+                let y = Dwall - height;
+                do Screen.setColor(false);
+                do Screen.drawRectangle(x, y - 4, x + width, y - 1);
+                do show();
+            }
+            else{
+                do Screen.setColor(false);
+                do Screen.drawRectangle(x, y - 4, x + width, y - 1);
+                do Screen.setColor(true);
+                do Screen.drawRectangle(x, (y + height) - 3, x + width, y + height);
+            }
+        }
+        
+        return;
+    }
+}

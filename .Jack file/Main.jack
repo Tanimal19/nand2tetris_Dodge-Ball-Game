@@ -1,0 +1,14 @@
+class Main {
+    function void main() {
+        var Game game;
+        do Game.newInstance();
+        let game = Game.getInstance();
+        while ( ~(game.run()) ) {
+            do Sys.wait(500);
+            do Game.newInstance();
+            let game = Game.getInstance();
+        }
+        do game.dispose();
+        return;
+    }
+}
